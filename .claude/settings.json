@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "deny": [
+      "Edit(**/agente-polymarket/politica-de-risco.md)",
+      "Write(**/agente-polymarket/politica-de-risco.md)",
+      "Edit(**/agente-polymarket/dados/log.jsonl)",
+      "Write(**/agente-polymarket/dados/log.jsonl)"
+    ],
+    "ask": [
+      "Bash(python3 agente-polymarket/agente.py retomar:*)",
+      "Bash(python3 -I agente-polymarket/agente.py retomar:*)",
+      "Bash(python3 agente.py retomar:*)",
+      "Bash(python3 -I agente.py retomar:*)"
+    ]
+  }
+}

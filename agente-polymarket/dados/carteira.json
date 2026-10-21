@@ -1,0 +1,18 @@
+{
+  "saldo_inicial": 50.0,
+  "caixa": 50.0,
+  "posicoes": [],
+  "valor_inicio_dia": {
+    "2026-10-21": 50.0
+  },
+  "resultado_dia": {
+    "2026-10-21": 0.0
+  },
+  "entradas_dia": {},
+  "entradas_mes": {},
+  "falhas_api": 0,
+  "estrategia": "A_valor",
+  "pausa_ate": null,
+  "parada": null,
+  "retomado_em": null
+}

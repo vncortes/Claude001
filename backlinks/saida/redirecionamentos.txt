@@ -1,0 +1,33 @@
+# Domínios duplicados: redirecionamento 301 para o principal.
+# hPanel > Domínios > Redirecionar, ou no .htaccess do domínio duplicado:
+
+## artbike.com.pt  ->  artbike.pt
+RewriteEngine On
+RewriteRule ^(.*)$ https://www.artbike.pt/$1 [R=301,L]
+
+## livrariatertulia.com  ->  livrariatertulia.pt
+RewriteEngine On
+RewriteRule ^(.*)$ https://www.livrariatertulia.pt/$1 [R=301,L]
+
+## ferragensvinhas.pt  ->  ferragensvinhas.com
+RewriteEngine On
+RewriteRule ^(.*)$ https://www.ferragensvinhas.com/$1 [R=301,L]
+
+## bolmerc.com  ->  bolmerc.pt
+RewriteEngine On
+RewriteRule ^(.*)$ https://www.bolmerc.pt/$1 [R=301,L]
+
+## casa-xadrez.com  ->  casaxadrez.pt
+RewriteEngine On
+RewriteRule ^(.*)$ https://www.casaxadrez.pt/$1 [R=301,L]
+
+## mastersports.pt  ->  mastersport.pt
+RewriteEngine On
+RewriteRule ^(.*)$ https://www.mastersport.pt/$1 [R=301,L]
+
+# Subdomínios de loja: não entram na rede; ligar a partir do menu do site principal.
+#   loja.vcbrindes.pt  (principal: vcbrindes.pt)
+#   loja.marcals.com  (principal: marcals.com)
+#   loja.ecoembal.pt  (principal: ecoembal.pt)
+#   loja.higibarracao.pt  (principal: higibarracao.pt)
+#   loja.fontedencantos.pt  (principal: fontedencantos.pt)

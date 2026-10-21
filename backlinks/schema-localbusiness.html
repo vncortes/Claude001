@@ -1,0 +1,37 @@
+<!-- Cole dentro do <head> de cada site (ou no plugin de SEO / "Header scripts" do WordPress).
+     Substitua tudo o que está entre [ ]. Troque "LocalBusiness" pelo tipo mais específico:
+     Restaurant, HairSalon, BeautySalon, Pharmacy, Optician, Store, ClothingStore,
+     LodgingBusiness, BedAndBreakfast, Florist, Bakery, LiquorStore, AutoRepair, etc.
+     Valide em https://search.google.com/test/rich-results -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "[Nome do negócio]",
+  "url": "https://www.[dominio]",
+  "logo": "https://www.[dominio]/[logo.png]",
+  "image": "https://www.[dominio]/[foto-fachada.jpg]",
+  "telephone": "+351[000000000]",
+  "email": "[email@dominio]",
+  "priceRange": "€€",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "[Rua e número]",
+    "postalCode": "[0000-000]",
+    "addressLocality": "[Cidade]",
+    "addressRegion": "[Distrito]",
+    "addressCountry": "PT"
+  },
+  "geo": { "@type": "GeoCoordinates", "latitude": 0.0, "longitude": 0.0 },
+  "openingHoursSpecification": [
+    { "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+      "opens": "09:00", "closes": "19:00" }
+  ],
+  "sameAs": [
+    "https://www.facebook.com/[pagina]",
+    "https://www.instagram.com/[perfil]",
+    "https://maps.google.com/?cid=[id do Perfil da Empresa no Google]"
+  ]
+}
+</script>

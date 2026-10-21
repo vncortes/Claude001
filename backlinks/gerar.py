@@ -7,12 +7,21 @@ Edite dominios.csv (setor, subsetor, regiao, estado) e volte a correr.
 import csv
 import hashlib
 import html
+import io
 import os
 from collections import defaultdict
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 SAIDA = os.path.join(AQUI, "saida")
 MAX_PARCEIROS = 4
+# Sites de âmbito nacional: sem região para efeitos de proximidade.
+NACIONAL = {"Portugal", "Nacional"}
+# Limite de links recebidos por site, para não criar "estrelas" artificiais.
+MAX_ENTRADAS = 6
+# Serviços que só fazem sentido recomendar dentro da mesma região.
+LOCAIS = {"auto", "beleza", "saude", "servicos", "casa", "restauracao", "educacao", "flores"}
+PREPOSICAO = {"Alentejo": "no", "Algarve": "no", "Centro": "no", "Norte": "no",
+              "Açores": "nos", "Beira Interior": "na", "Madeira": "na"}
 
 # Setores que fazem sentido recomendar a partir de cada setor.
 COMPLEMENTARES = {
@@ -61,13 +70,25 @@ DESCRICOES = {
     "imobiliaria": "Imobiliária", "infantil": "Espaço infantil",
     "explicacoes": "Centro de estudos", "material_didatico": "Material didático",
     "livraria": "Livraria", "artesanato": "Artesanato", "fotografia": "Fotografia",
-    "musica": "Música",
+    "musica": "Música", "informatica": "Informática", "carimbos": "Carimbos",
+    "equipamentos": "Equipamentos", "bijuteria": "Bijuteria",
+    "protecao_individual": "Equipamento de proteção individual",
+    "lavandaria": "Lavandaria", "limpeza": "Limpeza", "marketplace": "Marketplace",
+    "casa": "Serviços para a casa", "turismo": "Turismo", "desporto": "Desporto",
 }
 
 
 def ler():
-    with open(os.path.join(AQUI, "dominios.csv"), encoding="utf-8") as f:
-        return list(csv.DictReader(f, delimiter=";"))
+    bruto = open(os.path.join(AQUI, "dominios.csv"), "rb").read()
+    try:
+        texto = bruto.decode("utf-8-sig")
+    except UnicodeDecodeError:  # gravado pelo Excel em Windows-1252
+        texto = bruto.decode("cp1252")
+    linhas = list(csv.DictReader(io.StringIO(texto), delimiter=";"))
+    for l in linhas:
+        if l["regiao"] in NACIONAL:
+            l["regiao"] = ""
+    return linhas
 
 
 def desempate(a, b):
@@ -78,6 +99,8 @@ def pontuar(origem, alvo, entradas, ligacoes):
     so, sa = origem["setor"], alvo["setor"]
     if sa not in COMPLEMENTARES.get(so, []):
         return None
+    if entradas[alvo["dominio"]] >= MAX_ENTRADAS:
+        return None
     # Concorrentes diretos (mesmo subsetor) não se recomendam.
     if origem["subsetor"] and origem["subsetor"] == alvo["subsetor"]:
         return None
@@ -85,7 +108,9 @@ def pontuar(origem, alvo, entradas, ligacoes):
     if origem["regiao"] and origem["regiao"] == alvo["regiao"]:
         pontos += 3
     elif origem["regiao"] and alvo["regiao"]:
-        pontos -= 3  # regiões diferentes e conhecidas
+        if sa in LOCAIS:
+            return None  # serviço local de outra região
+        pontos -= 3
     # Evita trocas A<->B e espalha os links por todos os sites.
     if origem["dominio"] in ligacoes[alvo["dominio"]]:
         pontos -= 2.5
@@ -95,7 +120,9 @@ def pontuar(origem, alvo, entradas, ligacoes):
 
 def descricao(s):
     texto = DESCRICOES.get(s["subsetor"], s["setor"].capitalize())
-    return f"{texto} em {s['regiao']}" if s["regiao"] else texto
+    if not s["regiao"]:
+        return texto
+    return f"{texto} {PREPOSICAO.get(s['regiao'], 'em')} {s['regiao']}"
 
 
 def bloco_html(parceiros):

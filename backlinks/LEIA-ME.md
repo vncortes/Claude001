@@ -7,7 +7,7 @@ Os blocos são escolhidos por setor complementar e região, sem ligar concorrent
 
 | Ficheiro | Para quê |
 |---|---|
-| `dominios.csv` | Folha mestre (abre no Excel, separador `;`). **Corrija aqui** setor, subsetor, região e estado. |
+| `dominios.csv` | Folha mestre (abre no Excel, separador `;`). **Corrija aqui** setor, subsetor, região e estado. No Excel, grave sempre como **"CSV UTF-8 (delimitado por vírgulas)"**, senão os acentos estragam-se. |
 | `gerar.py` | Gera tudo a partir da folha: `python3 gerar.py` |
 | `saida/parceiros/<dominio>.html` | Bloco HTML a colar em cada site |
 | `saida/mapa-de-links.csv` | Quem liga a quem, com contagem de links de entrada e saída |
@@ -17,7 +17,8 @@ Os blocos são escolhidos por setor complementar e região, sem ligar concorrent
 
 ## Estados na coluna `estado`
 
-- `incluir`: entra na rede.
+- `incluir`: entra na rede. Região `Portugal` = âmbito nacional (sem preferência regional).
+- Qualquer linha com a coluna `principal` preenchida é tratada como duplicado (301) ou, se começar por `loja.`, como subdomínio.
 - `rever`: setor desconhecido; fica de fora até ser classificado.
 - `excluir`: plataformas, notícias, finanças, funerárias e a holding. Ficam fora da lista automática.
 - `redirecionar`: duplicado; faz 301 para o domínio da coluna `principal`.

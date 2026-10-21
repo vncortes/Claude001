@@ -18,6 +18,8 @@ MAX_PARCEIROS = 4
 NACIONAL = {"Portugal", "Nacional"}
 # Limite de links recebidos por site, para não criar "estrelas" artificiais.
 MAX_ENTRADAS = 6
+# Sites com ignorar_regiao=sim são recomendados em qualquer região até este mínimo.
+MIN_ENTRADAS_FORCADAS = 3
 # Serviços que só fazem sentido recomendar dentro da mesma região.
 LOCAIS = {"auto", "beleza", "saude", "servicos", "casa", "restauracao", "educacao", "flores"}
 PREPOSICAO = {"Alentejo": "no", "Algarve": "no", "Centro": "no", "Norte": "no",
@@ -107,6 +109,9 @@ def pontuar(origem, alvo, entradas, ligacoes):
     pontos = 2.0 if so != sa else 1.0
     if origem["regiao"] and origem["regiao"] == alvo["regiao"]:
         pontos += 3
+    elif (alvo.get("ignorar_regiao") == "sim" and origem.get("ignorar_regiao") != "sim"
+          and entradas[alvo["dominio"]] < MIN_ENTRADAS_FORCADAS):
+        pontos += 4  # recomendado em qualquer região até atingir o mínimo
     elif origem["regiao"] and alvo["regiao"]:
         if sa in LOCAIS:
             return None  # serviço local de outra região

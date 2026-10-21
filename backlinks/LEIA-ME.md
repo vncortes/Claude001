@@ -18,6 +18,7 @@ Os blocos são escolhidos por setor complementar e região, sem ligar concorrent
 ## Estados na coluna `estado`
 
 - `incluir`: entra na rede. Região `Portugal` = âmbito nacional (sem preferência regional).
+- Coluna `ignorar_regiao = sim`: o site é recomendado por parceiros de qualquer região, até 3 links (útil para sites sem vizinhos na rede).
 - Qualquer linha com a coluna `principal` preenchida é tratada como duplicado (301) ou, se começar por `loja.`, como subdomínio.
 - `rever`: setor desconhecido; fica de fora até ser classificado.
 - `excluir`: plataformas, notícias, finanças, funerárias e a holding. Ficam fora da lista automática.
